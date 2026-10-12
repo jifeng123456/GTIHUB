@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f7f3">
+  <meta name="description" content="去远方，发现世界的另一种可能。精选目的地、旅行灵感与专属路线。">
+  <title>漫游 · 让每一程都有回响</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #18352e;
+      --muted: #78827a;
+      --green: #2f6854;
+      --green-dark: #244f40;
+      --lime: #d8e99d;
+      --paper: #f8f7f3;
+      --white: #fff;
+      --line: #e8e7e0;
+      --serif: Georgia, 'Times New Roman', serif;
+      font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      scroll-behavior: smooth;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    .shell { width: min(1160px, calc(100% - 64px)); margin: 0 auto; }
+
+    .site-header { height: 82px; display: flex; align-items: center; background: var(--paper); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 800; letter-spacing: -.8px; }
+    .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 12px 12px 12px 4px; background: var(--green); color: white; font-size: 20px; transform: rotate(-5deg); }
+    .nav-links { display: flex; align-items: center; gap: 34px; color: #5b665f; font-size: 14px; }
+    .nav-links a { transition: color .2s; }
+    .nav-links a:hover { color: var(--green); }
+    .nav-actions { display: flex; align-items: center; gap: 18px; }
+    .login { font-size: 14px; font-weight: 600; }
+    .button { border: 0; border-radius: 999px; background: var(--green); color: white; padding: 13px 21px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
+    .button:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .menu-toggle { display: none; border: 0; background: none; color: var(--ink); font-size: 25px; cursor: pointer; }
+
+    .hero { min-height: 550px; display: flex; align-items: center; position: relative; overflow: hidden; border-radius: 27px; color: white; background: #6c8579 url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=2200&q=88') center 54%/cover no-repeat; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14, 38, 34, .68), rgba(19, 43, 38, .26) 52%, rgba(13, 33, 30, .04)), linear-gradient(0deg, rgba(10, 31, 28, .20), transparent 48%); }
+    .hero-content { position: relative; z-index: 1; width: min(690px, 78%); padding: 74px 0 105px 8.3%; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; margin: 0 0 24px; color: var(--lime); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .eyebrow::before { content: ''; width: 24px; height: 1px; background: currentColor; }
+    .hero h1 { margin: 0; font-size: clamp(42px, 6vw, 74px); line-height: 1.12; letter-spacing: -2px; font-weight: 600; }
+    .hero h1 em { font-family: var(--serif); font-weight: 400; }
+    .hero-copy { max-width: 440px; margin: 20px 0 0; color: rgba(255,255,255,.82); font-size: 15px; line-height: 1.9; }
+    .hero-note { position: absolute; right: 30px; bottom: 30px; z-index: 1; display: flex; align-items: center; gap: 10px; font-size: 12px; color: rgba(255,255,255,.9); }
+    .note-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 4px rgba(216,233,157,.18); }
+
+    .search-wrap { position: relative; z-index: 2; margin-top: -47px; }
+    .search-card { display: grid; grid-template-columns: 1.2fr 1fr 1fr auto; align-items: center; gap: 0; padding: 13px; background: white; border-radius: 18px; box-shadow: 0 16px 45px rgba(35, 54, 44, .12); }
+    .search-field { min-width: 0; padding: 8px 22px; border-right: 1px solid var(--line); }
+    .search-field label { display: block; margin-bottom: 6px; color: #909891; font-size: 11px; }
+    .search-field input, .search-field select { width: 100%; padding: 0; border: 0; outline: 0; color: var(--ink); background: transparent; font-size: 14px; font-weight: 600; }
+    .search-field input::placeholder { color: #34463d; opacity: 1; }
+    .search-card .button { min-height: 54px; padding: 0 26px; }
+    .search-result { display: none; margin: 12px auto 0; width: fit-content; padding: 10px 18px; border-radius: 999px; background: var(--green); color: white; font-size: 13px; box-shadow: 0 8px 24px #18352e30; }
+    .search-result.show { display: block; animation: rise .25s ease-out; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .section { padding-top: 100px; }
+    .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 29px; }
+    .kicker { margin: 0 0 10px; color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+    .section h2 { margin: 0; font-size: clamp(28px, 3.2vw, 39px); line-height: 1.25; letter-spacing: -1.1px; font-weight: 600; }
+    .section-heading p { margin: 11px 0 0; color: var(--muted); font-size: 13px; }
+    .text-link { display: inline-flex; align-items: center; gap: 10px; padding: 0 0 6px; border-bottom: 1px solid #9daf9f; color: var(--green); font-size: 13px; font-weight: 700; white-space: nowrap; }
+    .text-link span { font-size: 18px; transition: transform .2s; }
+    .text-link:hover span { transform: translateX(4px); }
+    .destination-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 18px; }
+    .destination { min-height: 310px; overflow: hidden; position: relative; border-radius: 17px; isolation: isolate; background: #9caa9f; }
+    .destination::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(11,27,24,.72), transparent 58%); transition: transform .5s; }
+    .destination:hover::before { transform: scale(1.04); }
+    .destination img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .6s; }
+    .destination:hover img { transform: scale(1.05); }
+    .destination-info { position: absolute; inset: auto 22px 21px; color: white; }
+    .destination-info span { display: block; margin-bottom: 6px; color: rgba(255,255,255,.78); font-size: 11px; }
+    .destination-info h3 { margin: 0; font-size: 23px; font-weight: 600; }
+    .destination-info .arrow { position: absolute; right: 0; bottom: 3px; width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #ffffff88; border-radius: 50%; font-size: 16px; transition: background .2s, color .2s; }
+    .destination:hover .arrow { background: white; color: var(--green); }
+
+    .quote-band { margin-top: 104px; padding: 47px 0; background: #e9eee6; }
+    .quote-inner { display: flex; align-items: center; justify-content: space-between; gap: 35px; }
+    .quote-mark { color: #78927d; font: 70px/.6 var(--serif); }
+    .quote-text { max-width: 690px; margin: 0 auto 0 0; color: #315247; font-family: var(--serif); font-size: clamp(22px, 3vw, 31px); line-height: 1.55; }
+    .quote-credit { flex: 0 0 auto; color: #6c7d70; font-size: 12px; }
+
+    .experiences { padding-bottom: 100px; }
+    .experience-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .experience-card { overflow: hidden; border-radius: 16px; background: white; transition: transform .25s, box-shadow .25s; }
+    .experience-card:hover { transform: translateY(-5px); box-shadow: 0 14px 35px #19362a12; }
+    .experience-photo { position: relative; height: 210px; overflow: hidden; background: #d4ded5; }
+    .experience-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .experience-card:hover img { transform: scale(1.04); }
+    .tag { position: absolute; top: 14px; left: 14px; padding: 7px 11px; border-radius: 999px; background: rgba(255,255,255,.92); color: var(--green); font-size: 10px; font-weight: 700; }
+    .experience-body { padding: 19px 19px 20px; }
+    .experience-meta { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 11px; }
+    .rating { color: #a1762f; font-weight: 700; }
+    .experience-body h3 { margin: 12px 0 15px; font-size: 17px; font-weight: 600; }
+    .price-row { display: flex; align-items: baseline; justify-content: space-between; padding-top: 13px; border-top: 1px solid #efeee8; color: var(--muted); font-size: 11px; }
+    .price { color: var(--ink); font-size: 17px; font-weight: 700; }
+    .price small { color: var(--muted); font-size: 11px; font-weight: 400; }
+
+    .newsletter { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin-bottom: 76px; padding: 35px 42px; border-radius: 20px; background: var(--green); color: white; }
+    .newsletter h2 { margin: 0 0 8px; font-size: 23px; font-weight: 600; }
+    .newsletter p { margin: 0; color: #d2dfd5; font-size: 12px; }
+    .newsletter-form { display: flex; width: min(390px, 48%); padding: 5px; border: 1px solid #ffffff4a; border-radius: 999px; background: #ffffff13; }
+    .newsletter-form input { flex: 1; min-width: 0; padding: 0 16px; border: 0; outline: 0; color: white; background: transparent; font-size: 12px; }
+    .newsletter-form input::placeholder { color: #cfddd3; }
+    .newsletter-form button { flex: 0 0 auto; padding: 11px 17px; border: 0; border-radius: 999px; background: var(--lime); color: var(--ink); font-size: 11px; font-weight: 700; cursor: pointer; }
+    footer { padding: 24px 0 30px; border-top: 1px solid var(--line); color: #78827a; font-size: 11px; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .footer-links { display: flex; gap: 22px; }
+
+    @media (max-width: 850px) {
+      .shell { width: min(100% - 40px, 680px); }
+      .nav-links { gap: 18px; }
+      .nav-actions { gap: 12px; }
+      .hero { min-height: 510px; }
+      .hero-content { width: 88%; padding-left: 7%; }
+      .search-card { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .search-field { padding: 10px 14px; }
+      .search-field:nth-child(2) { border-right: 0; }
+      .search-card .button { grid-column: 1 / -1; min-height: 48px; }
+      .destination-grid { grid-template-columns: 1fr 1fr; }
+      .destination:first-child { grid-column: 1 / -1; min-height: 280px; }
+      .destination { min-height: 260px; }
+      .quote-inner { flex-wrap: wrap; }
+      .quote-credit { margin-left: 45px; }
+    }
+    @media (max-width: 600px) {
+      .shell { width: calc(100% - 36px); }
+      .site-header { height: 70px; }
+      .nav { gap: 12px; }
+      .brand { font-size: 19px; }
+      .menu-toggle { display: block; order: 3; }
+      .nav-links { display: none; position: absolute; top: 62px; left: 18px; right: 18px; z-index: 5; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 18px; border: 1px solid var(--line); border-radius: 14px; background: white; box-shadow: 0 12px 24px #18352e14; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 13px 4px; border-bottom: 1px solid #f0efe9; }
+      .nav-links a:last-child { border-bottom: 0; }
+      .nav-actions { margin-left: auto; }
+      .login { display: none; }
+      .nav-actions .button { padding: 11px 15px; font-size: 12px; }
+      .hero { min-height: 500px; border-radius: 19px; background-position: 58% center; }
+      .hero::before { background: linear-gradient(90deg, rgba(14,38,34,.7), rgba(19,43,38,.17)), linear-gradient(0deg, rgba(10,31,28,.25), transparent 55%); }
+      .hero-content { width: 100%; padding: 65px 25px 100px; }
+      .hero h1 { font-size: clamp(43px, 12vw, 60px); letter-spacing: -1.5px; }
+      .hero-copy { max-width: 340px; font-size: 13px; }
+      .hero-note { right: 18px; bottom: 20px; font-size: 10px; }
+      .search-wrap { margin-top: -35px; }
+      .search-card { padding: 9px; border-radius: 15px; }
+      .search-field { padding: 8px 10px; }
+      .search-field label { font-size: 10px; }
+      .search-field input, .search-field select { font-size: 12px; }
+      .search-card .button { min-height: 44px; }
+      .section { padding-top: 72px; }
+      .section-heading { align-items: flex-start; }
+      .section-heading .text-link { margin-top: 4px; font-size: 11px; }
+      .section h2 { font-size: 28px; }
+      .section-heading p { font-size: 12px; }
+      .destination-grid { gap: 11px; }
+      .destination:first-child { min-height: 245px; }
+      .destination { min-height: 205px; border-radius: 13px; }
+      .destination-info { inset: auto 14px 15px; }
+      .destination-info h3 { font-size: 18px; }
+      .destination-info .arrow { width: 30px; height: 30px; font-size: 13px; }
+      .destination-info span { font-size: 9px; }
+      .quote-band { margin-top: 72px; padding: 35px 0; }
+      .quote-mark { font-size: 52px; }
+      .quote-text { font-size: 22px; }
+      .quote-credit { margin-left: 32px; }
+      .experience-grid { grid-template-columns: 1fr; gap: 14px; }
+      .experience-card { display: grid; grid-template-columns: 40% 1fr; min-height: 160px; }
+      .experience-photo { height: 100%; min-height: 160px; }
+      .experience-body { padding: 14px 13px; }
+      .experience-body h3 { margin: 10px 0 12px; font-size: 14px; line-height: 1.5; }
+      .experience-meta { font-size: 9px; }
+      .price-row { padding-top: 10px; font-size: 9px; }
+      .price { font-size: 15px; }
+      .experiences { padding-bottom: 72px; }
+      .newsletter { align-items: flex-start; flex-direction: column; margin-bottom: 50px; padding: 27px 22px; }
+      .newsletter h2 { font-size: 20px; }
+      .newsletter-form { width: 100%; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .footer-links { gap: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav shell" aria-label="主导航">
+      <a class="brand" href="#top" aria-label="漫游首页"><span class="brand-mark">↗</span><span>漫游<span style="color:var(--green);">.</span></span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#destinations">目的地</a>
+        <a href="#experiences">旅行灵感</a>
+        <a href="#story">关于漫游</a>
+      </div>
+      <div class="nav-actions"><a class="login" href="#newsletter">登录 / 注册</a><a class="button" href="#search">开始探索　↗</a></div>
+      <button class="menu-toggle" id="menuToggle" aria-label="打开导航" aria-expanded="false">☰</button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="shell">
+      <section class="hero" aria-label="旅行精选">
+        <div class="hero-content">
+          <p class="eyebrow">A little further, a little freer</p>
+          <h1>去远方，<br>把日子过成<em>风景。</em></h1>
+          <p class="hero-copy">那些地图之外的惊喜、转角遇见的日落，还有不赶时间的自己。下一段故事，现在出发。</p>
+        </div>
+        <div class="hero-note"><span class="note-dot"></span> 瑞士 · 因特拉肯　|　46°41′N 7°51′E</div>
+      </section>
+
+      <section class="search-wrap" id="search" aria-label="搜索旅行">
+        <form class="search-card" id="searchForm">
+          <div class="search-field"><label for="destination">你想去哪里？</label><input id="destination" name="destination" placeholder="试试京都、冰岛……" required></div>
+          <div class="search-field"><label for="date">出发时间</label><input id="date" name="date" type="date" aria-label="出发时间"></div>
+          <div class="search-field"><label for="travelers">同行旅人</label><select id="travelers" name="travelers"><option>2 位旅人</option><option>1 位旅人</option><option>3 位旅人</option><option>4 位及以上</option></select></div>
+          <button class="button" type="submit">⌕　寻找灵感</button>
+        </form>
+        <div class="search-result" id="searchResult" role="status"></div>
+      </section>
+
+      <section class="section" id="destinations">
+        <div class="section-heading">
+          <div><p class="kicker">Find your somewhere</p><h2>此刻，去喜欢的地方</h2><p>为你挑选的目的地灵感，不如就从这里开始。</p></div>
+          <a class="text-link" href="#experiences">探索全部目的地 <span>→</span></a>
+        </div>
+        <div class="destination-grid">
+          <a class="destination" href="#experiences"><img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1100&q=85" alt="京都传统街巷与寺庙屋檐" loading="lazy"><div class="destination-info"><span>古都漫步 · 四季皆宜</span><h3>日本 · 京都</h3><span class="arrow">↗</span></div></a>
+          <a class="destination" href="#experiences"><img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=900&q=85" alt="意大利五渔村海边彩色房屋" loading="lazy"><div class="destination-info"><span>海岸假日 · 慢享日光</span><h3>意大利 · 五渔村</h3><span class="arrow">↗</span></div></a>
+          <a class="destination" href="#experiences"><img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=900&q=85" alt="冰岛壮阔的山脉与湖泊" loading="lazy"><div class="destination-info"><span>自然奇境 · 公路旅行</span><h3>冰岛 · 环岛之旅</h3><span class="arrow">↗</span></div></a>
+        </div>
+      </section>
+    </div>
+
+    <section class="quote-band" id="story"><div class="shell quote-inner"><div class="quote-mark">“</div><p class="quote-text">旅行不是为了抵达某个地方，而是为了让世界重新变得辽阔。</p><div class="quote-credit">漫游旅行手记 · Vol. 08</div></div></section>
+
+    <section class="section experiences shell" id="experiences">
+      <div class="section-heading">
+        <div><p class="kicker">Made for the moments</p><h2>把喜欢的事，排进旅程</h2><p>小而美的体验，让一趟旅行变成独家记忆。</p></div>
+        <a class="text-link" href="#newsletter">更多旅行灵感 <span>→</span></a>
+      </div>
+      <div class="experience-grid">
+        <article class="experience-card"><div class="experience-photo"><img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=900&q=82" alt="沿着地中海海岸徒步" loading="lazy"><span class="tag">小团体验</span></div><div class="experience-body"><div class="experience-meta"><span>意大利 · 五渔村</span><span class="rating">★ 4.98</span></div><h3>沿着地中海，走一段海岸小径</h3><div class="price-row"><span>约 4 小时 · 含当地向导</span><span class="price">¥ 680 <small>/ 人起</small></span></div></div></article>
+        <article class="experience-card"><div class="experience-photo"><img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=900&q=82" alt="京都古巷里的和服体验" loading="lazy"><span class="tag">当地精选</span></div><div class="experience-body"><div class="experience-meta"><span>日本 · 京都</span><span class="rating">★ 4.96</span></div><h3>穿过清晨的古巷，听京都慢慢醒来</h3><div class="price-row"><span>约 3 小时 · 摄影师同行</span><span class="price">¥ 520 <small>/ 人起</small></span></div></div></article>
+        <article class="experience-card"><div class="experience-photo"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=82" alt="阿尔卑斯山湖畔的宁静清晨" loading="lazy"><span class="tag">自然疗愈</span></div><div class="experience-body"><div class="experience-meta"><span>瑞士 · 因特拉肯</span><span class="rating">★ 5.00</span></div><h3>在阿尔卑斯山脚，等一场日出</h3><div class="price-row"><span>约 5 小时 · 含往返接送</span><span class="price">¥ 890 <small>/ 人起</small></span></div></div></article>
+      </div>
+    </section>
+
+    <section class="newsletter shell" id="newsletter"><div><h2>把远方，放进每周的信里。</h2><p>每周一封旅行灵感，不打扰，只带来一点出发的理由。</p></div><form class="newsletter-form" id="newsletterForm"><input type="email" placeholder="输入你的邮箱地址" aria-label="邮箱地址" required><button type="submit">订阅灵感　→</button></form></section>
+  </main>
+
+  <footer><div class="shell footer-inner"><a class="brand" href="#top"><span class="brand-mark">↗</span><span>漫游<span style="color:var(--green);">.</span></span></a><span>© 2026 漫游旅行 · 把世界走成日常</span><div class="footer-links"><a href="#story">关于我们</a><a href="#newsletter">联系我们</a><a href="#top">返回顶部 ↑</a></div></div></footer>
+
+  <script>
+    const searchForm = document.querySelector('#searchForm');
+    const searchResult = document.querySelector('#searchResult');
+    searchForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const place = document.querySelector('#destination').value.trim();
+      const date = document.querySelector('#date').value;
+      const travelers = document.querySelector('#travelers').value;
+      searchResult.textContent = `已为你开启「${place}」的旅行灵感${date ? ` · ${date}` : ''} · ${travelers}，继续向下发现精选体验。`;
+      searchResult.classList.add('show');
+      document.querySelector('#destinations').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    document.querySelector('#newsletterForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const button = event.currentTarget.querySelector('button');
+      button.textContent = '已加入，旅途愉快 ✓';
+      button.disabled = true;
+    });
+
+    const menuToggle = document.querySelector('#menuToggle');
+    const navLinks = document.querySelector('#navLinks');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? '关闭导航' : '打开导航');
+      menuToggle.textContent = isOpen ? '×' : '☰';
+    });
+    navLinks.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.textContent = '☰';
+    }));
+  </script>
+</body>
+</html>
